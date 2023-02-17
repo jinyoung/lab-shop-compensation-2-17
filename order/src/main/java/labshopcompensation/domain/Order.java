@@ -1,59 +1,100 @@
 package labshopcompensation.domain;
 
-import java.util.Date;
-import java.util.List;
-import javax.persistence.*;
-import labshopcompensation.OrderApplication;
-import labshopcompensation.domain.OrderCancelled;
 import labshopcompensation.domain.OrderPlaced;
+import labshopcompensation.domain.OrderCancelled;
+import labshopcompensation.OrderApplication;
+import javax.persistence.*;
+import java.util.List;
 import lombok.Data;
+import java.util.Date;
+
 
 @Entity
-@Table(name = "Order_table")
+@Table(name="Order_table")
 @Data
-public class Order {
 
+public class Order  {
+
+
+    
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    
+    
+    
+    
+    
     private Long id;
-
+    
+    
+    
+    
+    
     private String productId;
-
+    
+    
+    
+    
+    
     private Integer qty;
-
+    
+    
+    
+    
+    
     private String customerId;
-
+    
+    
+    
+    
+    
     private Double amount;
-
+    
+    
+    
+    
+    
     private String status;
-
+    
+    
+    
+    
+    
     private String address;
 
     @PostPersist
-    public void onPostPersist() {
+    public void onPostPersist(){
+
+
         OrderPlaced orderPlaced = new OrderPlaced(this);
         orderPlaced.publishAfterCommit();
-    }
 
+    }
     @PrePersist
-    public void onPrePersist() {
-        // Get request from Order
-        //labshopcompensation.external.Order order =
-        //    Application.applicationContext.getBean(labshopcompensation.external.OrderService.class)
-        //    .getOrder(/** mapping value needed */);
+    public void onPrePersist(){
+        // Get request from Inventory
+        //labshopcompensation.external.Inventory inventory =
+        //    Application.applicationContext.getBean(labshopcompensation.external.InventoryService.class)
+        //    .getInventory(/** mapping value needed */);
 
     }
-
     @PreRemove
-    public void onPreRemove() {
+    public void onPreRemove(){
+
+
         OrderCancelled orderCancelled = new OrderCancelled(this);
         orderCancelled.publishAfterCommit();
+
     }
 
-    public static OrderRepository repository() {
-        OrderRepository orderRepository = OrderApplication.applicationContext.getBean(
-            OrderRepository.class
-        );
+    public static OrderRepository repository(){
+        OrderRepository orderRepository = OrderApplication.applicationContext.getBean(OrderRepository.class);
         return orderRepository;
     }
+
+
+
+
+
+
 }
